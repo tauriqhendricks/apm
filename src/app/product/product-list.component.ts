@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IProduct } from './product';
 
 @Component({
   selector: 'pm-products',
@@ -7,12 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductListComponent {
   pageTitle: string = 'Product List';
-  products: any[] = [
+  imageWidth: number = 50;
+  imageMargin: number = 2;
+  showImage: boolean = false;
+  listFilter: string = 'cart';
+  products: IProduct[] = [
     {
       productId: 2,
       productName: 'Garden Cart',
       productCode: 'GDN-0023',
-      releaseDate: 'March 18, 2019',
+      releaseDate: new Date('2019-01-16'),
       description: '15 gallon capacity rolling garden cart',
       price: 32.99,
       starRating: 4.2,
@@ -22,11 +27,15 @@ export class ProductListComponent {
       productId: 5,
       productName: 'Hammer',
       productCode: 'TBX-0048',
-      releaseDate: 'May 21, 2019',
+      releaseDate: new Date('2019-05-21'),
       description: 'Curved claw steel hammer',
       price: 8.9,
       starRating: 4.8,
       imageUrl: 'assets/images/hammer.png'
     }
   ];
+
+  toggleImage() {
+    this.showImage = !this.showImage;
+  }
 }
