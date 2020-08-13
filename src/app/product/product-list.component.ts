@@ -6,17 +6,30 @@ import { IProduct } from './product';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
+
   pageTitle: string = 'Product List';
   imageWidth: number = 50;
   imageMargin: number = 2;
   showImage: boolean = false;
-  listFilter: string = 'cart';
+
+  private _listFilter: string;
+  get listFilter(): string {
+    return this._listFilter;
+  }
+  set listFilter(value: string) {
+    this._listFilter = value;
+    // set filtered products array to the filtered products
+    // if there is a listfilter value: filter the products if not display products array(default all products)
+    this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
+  }
+
+  filteredProducts: IProduct[];
   products: IProduct[] = [
     {
       productId: 2,
       productName: 'Garden Cart',
-      productCode: 'GDN-0023',
+      productCode: 'gdn-0023',
       releaseDate: new Date('2019-01-16'),
       description: '15 gallon capacity rolling garden cart',
       price: 32.99,
@@ -26,7 +39,7 @@ export class ProductListComponent {
     {
       productId: 5,
       productName: 'Hammer',
-      productCode: 'TBX-0048',
+      productCode: 'tbx-0048',
       releaseDate: new Date('2019-05-21'),
       description: 'Curved claw steel hammer',
       price: 8.9,
@@ -35,7 +48,21 @@ export class ProductListComponent {
     }
   ];
 
+  constructor() {
+    this.filteredProducts = this.products;
+  }
+
+  ngOnInit(): void {
+  }
+
   toggleImage() {
     this.showImage = !this.showImage;
   }
+
+  performFilter(filterBy: string): IProduct[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product: IProduct) =>
+      product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  }
+
 }
