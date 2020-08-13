@@ -40,9 +40,10 @@
             </th>
             <td>{{product.productName}}</td>
             <td>{{product.productCode | convertToSpaces:'-'}}</td>
-            <td>{{product.releaseDate | date}}</td>
+            <td>{{product.releaseDate}}</td>
             <td>{{product.price | currency:'USD':'symbol':'1.2-2'}}</td>
-            <td><pm-star ></pm-star></td>
+            <td><pm-star [rating]='product.starRating'
+              (notify)='displayOutput($event)'></pm-star></td>
           </tr>
         </tbody>
       </table>

@@ -17,7 +17,8 @@ import { StarComponent } from './shared/star.component';
    ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })
