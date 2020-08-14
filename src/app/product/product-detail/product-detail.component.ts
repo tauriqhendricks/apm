@@ -13,7 +13,7 @@ export class ProductDetailComponent implements OnInit {
 
   pageTitle: string = 'Product Detail';
   product: IProduct;
-  products: IProduct[];
+  errorMessage: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService) {
   }
@@ -21,14 +21,21 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     // the + turn the string in to a number
     // 'id' is the parameter name specified in the route name
-    const id: number = +this.route.snapshot.paramMap.get('id');
-    this.productService.getProducts().subscribe({
-      next: products => {
-        this.products = products.filter((value => value.productId === id));
-        this.product = this.products[0];
-      }
+    const param: number = +this.route.snapshot.paramMap.get('id');
+
+    if (param) {
+      const id = +param;
+      this.getProduct(id);
+    }
+  }
+
+  getProduct(id: number): void {
+    this.productService.getProduct(id).subscribe({
+      next: product => this.product = product,
+      error: err => this.errorMessage = err
     });
   }
+
 
   onBack(): void {
     this.router.navigate(['/products']);
