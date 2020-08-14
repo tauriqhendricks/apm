@@ -17,13 +17,25 @@ export class ProductService {
   }
 
   getProducts(): Observable<IProduct[]> {
+
     return this.http.get<IProduct[]>(this.baseUrl).pipe(
       // taps into the observable
       // displays all the data in the console
       tap(data => console.log('All: ' + JSON.stringify(data))),
-      // catches any errors 
+      // catches any errors
       catchError(this.handleError)
     );
+
+  }
+
+  getProduct(id: number): IProduct {
+    let product;
+    this.getProducts().subscribe({
+      next: products => {
+        product = products.filter((value => value.productId === id));
+      }
+    });
+    return product;
   }
 
   private handleError(err: HttpErrorResponse) {
